@@ -15,19 +15,19 @@ with read_base():
 
 datasets = sum((v for k, v in locals().items() if k.endswith('_datasets')), [])
 
-# # config for internlm-7b model
-# models = [
-#     dict(
-#         type=TurboMindModel,
-#         abbr='internlm-7b-turbomind',
-#         path="./turbomind",
-#         max_out_len=100,
-#         max_seq_len=2048,
-#         batch_size=32,
-#         concurrency=32,
-#         run_cfg=dict(num_gpus=1, num_procs=1),
-#     )
-# ]
+# config for internlm-7b model
+models = [
+    dict(
+        type=TurboMindModel,
+        abbr='internlm-7b-turbomind',
+        path="./turbomind",
+        max_out_len=100,
+        max_seq_len=2048,
+        batch_size=32,
+        concurrency=32,
+        run_cfg=dict(num_gpus=1, num_procs=1),
+    )
+]
 
 # # config for internlm-7b-w4 model
 # models = [
@@ -58,18 +58,18 @@ datasets = sum((v for k, v in locals().items() if k.endswith('_datasets')), [])
 # ]
 
 # config for internlm-20b model
-models = [
-    dict(
-        type=TurboMindModel,
-        abbr='internlm-20b-turbomind',
-        path="./turbomind",
-        max_out_len=100,
-        max_seq_len=2048,
-        batch_size=8,
-        concurrency=8,
-        run_cfg=dict(num_gpus=1, num_procs=1),
-    )
-]
+# models = [
+#     dict(
+#         type=TurboMindModel,
+#         abbr='internlm-20b-turbomind',
+#         path="./turbomind",
+#         max_out_len=100,
+#         max_seq_len=2048,
+#         batch_size=8,
+#         concurrency=8,
+#         run_cfg=dict(num_gpus=1, num_procs=1),
+#     )
+# ]
 
 # config for internlm-20b-w4 model
 # models = [

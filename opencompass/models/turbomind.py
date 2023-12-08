@@ -126,8 +126,18 @@ class TurboMindModel(BaseModel):
         assert type(
             prompt) is str, 'We only support string for TurboMind Python API'
 
-        prompt = '<BOS>' + prompt
+        system = """\
+You are a helpful, respectful and honest assistant. Always answer as helpfully as possible, while being safe. Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature.
+
+If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information."""  # noqa: E501
+        begin = '[INST] '
+        # end = '[/INST] '
+        s_start = '<<SYS>>\n'
+        s_end = '\n<</SYS>>\n\n'
+        prompt = f'{begin} {s_start} {system} { s_end}{prompt[len(begin):]}'
         input_ids = self.tokenizer.encode(prompt)
+        with open('prompt.txt', 'a') as f:
+            f.write(prompt + '\n' + 50 * '====' + '\n')
 
         for outputs in generator.stream_infer(session_id=session_id,
                                               input_ids=[input_ids],
