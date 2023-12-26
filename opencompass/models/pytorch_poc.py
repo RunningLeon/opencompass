@@ -9,8 +9,8 @@ from opencompass.utils.logging import get_logger
 from opencompass.utils.prompt import PromptList
 
 try:
-    from lmdeploy.pytorch_poc import engine as tm
-    from lmdeploy.pytorch_poc.messages import SamplingParam
+    from lmdeploy.pytorch import engine as tm
+    from lmdeploy.pytorch.messages import SamplingParam
 except ImportError:
     from opencompass.utils import get_package_placeholder, get_placeholder
     tm = get_package_placeholder('lmdeploy')
@@ -141,13 +141,11 @@ class PytorchModel(BaseModel):
                                        stop_words=[self.eos_token_id])
         response_size = 0
 
-        for outputs in generator.stream_infer(
-                session_id=session_id,
-                #   input_ids=input_ids,
-                prompt_token_ids=input_ids,
-                request_output_len=max_out_len,
-                step=0,
-                sampling_param=sampling_param):
+        for outputs in generator.stream_infer(session_id=session_id,
+                                              input_ids=input_ids,
+                                              request_output_len=max_out_len,
+                                              step=0,
+                                              sampling_param=sampling_param):
             status, res, tokens = outputs
             response_all = self.tokenizer.decode(res)
             response_cur = response_all[response_size:]
