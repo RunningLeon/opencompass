@@ -5,13 +5,13 @@ from opencompass.models.pytorch_poc import PytorchModel
 with read_base():
     # choose a list of datasets
     from .datasets.mmlu.mmlu_gen_a484b3 import mmlu_datasets
-    # from .datasets.ceval.ceval_gen_5f30c7 import ceval_datasets
-    # from .datasets.SuperGLUE_WiC.SuperGLUE_WiC_gen_d06864 import WiC_datasets
-    # from .datasets.SuperGLUE_WSC.SuperGLUE_WSC_gen_7902a7 import WSC_datasets
-    # from .datasets.triviaqa.triviaqa_gen_2121ce import triviaqa_datasets
+    from .datasets.ceval.ceval_gen_5f30c7 import ceval_datasets
+    from .datasets.SuperGLUE_WiC.SuperGLUE_WiC_gen_d06864 import WiC_datasets
+    from .datasets.SuperGLUE_WSC.SuperGLUE_WSC_gen_7902a7 import WSC_datasets
+    from .datasets.triviaqa.triviaqa_gen_2121ce import triviaqa_datasets
     from .datasets.gsm8k.gsm8k_gen_1d7fe4 import gsm8k_datasets
-    # from .datasets.race.race_gen_69ee4f import race_datasets
-    # from .datasets.crowspairs.crowspairs_gen_381af0 import crowspairs_datasets
+    from .datasets.race.race_gen_69ee4f import race_datasets
+    from .datasets.crowspairs.crowspairs_gen_381af0 import crowspairs_datasets
     # and output the results in a choosen format
     from .summarizers.medium import summarizer
 
@@ -225,18 +225,6 @@ pt_internlm_chat_7b = dict(
     run_cfg=dict(num_gpus=1, num_procs=1),
 )
 
-pt_internlm_chat_7b = dict(
-    type=PytorchModel,
-    abbr='internlm-chat-7b-pytorch',
-    path='./internlm-chat-7b',
-    max_out_len=100,
-    max_seq_len=2048,
-    batch_size=16,
-    concurrency=16,
-    meta_template=internlm_meta_template,
-    run_cfg=dict(num_gpus=1, num_procs=1),
-)
-
 pt_qwen_chat_7b = dict(
     type=PytorchModel,
     abbr='qwen-chat-7b-pytorch',
@@ -257,7 +245,7 @@ pt_baichuan2_chat_7b = dict(
     max_seq_len=2048,
     batch_size=16,
     concurrency=16,
-    meta_template=qwen_meta_template,
+    meta_template=baichuan2_meta_template,
     run_cfg=dict(num_gpus=1, num_procs=1),
 )
 
