@@ -1,6 +1,7 @@
 from mmengine.config import read_base
 from opencompass.models.turbomind import TurboMindModel
 from opencompass.models.pytorch_poc import PytorchModel
+from opencompass.models import HuggingFaceCausalLM
 
 with read_base():
     # choose a list of datasets
@@ -249,5 +250,41 @@ pt_baichuan2_chat_7b = dict(
     run_cfg=dict(num_gpus=1, num_procs=1),
 )
 
+hf_llama2_chat_7b = dict(
+        type=HuggingFaceCausalLM,
+        abbr='llama2-chat-7b-hf',
+        path="meta-llama/llama-2-7b-chat",
+        tokenizer_path='meta-llama/llama-2-7b-chat',
+        tokenizer_kwargs=dict(padding_side='left',
+                              truncation_side='left',
+                              use_fast=False,
+                              ),
+        max_out_len=100,
+        max_seq_len=2048,
+        batch_size=16,
+        model_kwargs=dict(device_map='auto'),
+        batch_padding=False, # if false, inference with for-loop without batch padding
+        meta_template=llama2_meta_template,
+        run_cfg=dict(num_gpus=1, num_procs=1),
+    )
+
+hf_baichuan2_chat_7b = dict(
+    type=HuggingFaceCausalLM,
+    abbr='baichuan2-7b-chat-hf',
+    path="baichuan-inc/Baichuan2-7B-Chat",
+    tokenizer_path='baichuan-inc/Baichuan2-7B-Chat',
+    tokenizer_kwargs=dict(
+        padding_side='left',
+        truncation_side='left',
+        trust_remote_code=True,
+        use_fast=False,
+    ),
+    meta_template=baichuan2_meta_template,
+    max_out_len=100,
+    max_seq_len=2048,
+    batch_size=16,
+    model_kwargs=dict(device_map='auto', trust_remote_code=True),
+    run_cfg=dict(num_gpus=1, num_procs=1),
+)
 models = [pt_internlm_chat_7b]
 
