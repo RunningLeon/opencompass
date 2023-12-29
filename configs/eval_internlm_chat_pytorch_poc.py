@@ -1,5 +1,5 @@
 from mmengine.config import read_base
-from opencompass.models import PytorchModel
+from opencompass.models import LmdeployPytorchModel
 
 
 with read_base():
@@ -27,7 +27,7 @@ meta_template = dict(
     eos_token_id=103028)
 
 internlm_chat_20b = dict(
-        type=PytorchModel,
+        type=LmdeployPytorchModel,
         abbr='internlm-chat-20b-pytorch',
         path='internlm/internlm-chat-20b',
         max_out_len=100,
@@ -39,7 +39,7 @@ internlm_chat_20b = dict(
     )
 
 internlm_chat_20b_w8a8 = dict(
-        type=PytorchModel,
+        type=LmdeployPytorchModel,
         abbr='internlm-chat-20b-pytorch-w8a8',
         path = 'internlm/internlm-chat-20b-w8a8',
         max_out_len=100,

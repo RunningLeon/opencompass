@@ -29,11 +29,11 @@ def valid_str(string, coding='utf-8'):
     return ret
 
 
-class PytorchModel(BaseModel):
-    """Model wrapper for TurboMind Python API.
+class LmdeployPytorchModel(BaseModel):
+    """Model wrapper for lmdeploy pytorch engine through python API.
 
     Args:
-        path (str): path of the turbomind model
+        path (str): path of the supported pytorch model.
         max_seq_len (int): The maximum allowed sequence length of a model.
             Note that the length of prompt + generated tokens shall not exceed
             this value. Defaults to 2048.
