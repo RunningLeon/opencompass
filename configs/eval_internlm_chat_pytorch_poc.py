@@ -26,11 +26,10 @@ meta_template = dict(
     ],
     eos_token_id=103028)
 
-models = [
-    dict(
+internlm_chat_20b = dict(
         type=PytorchModel,
-        abbr='internlm-chat-20b-pytorch-poc',
-        path='internlm/internlm-chat-7b',
+        abbr='internlm-chat-20b-pytorch',
+        path='internlm/internlm-chat-20b',
         max_out_len=100,
         max_seq_len=2048,
         batch_size=8,
@@ -38,4 +37,17 @@ models = [
         meta_template=meta_template,
         run_cfg=dict(num_gpus=1, num_procs=1),
     )
-]
+
+internlm_chat_20b_w8a8 = dict(
+        type=PytorchModel,
+        abbr='internlm-chat-20b-pytorch-w8a8',
+        path = 'internlm/internlm-chat-20b-w8a8',
+        max_out_len=100,
+        max_seq_len=2048,
+        batch_size=8,
+        concurrency=8,
+        meta_template=meta_template,
+        run_cfg=dict(num_gpus=1, num_procs=1),
+    )
+
+models = [internlm_chat_20b]
