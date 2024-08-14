@@ -1,4 +1,4 @@
-from opencompass.models import HuggingFaceCausalLM
+from opencompass.models import HuggingFaceCausalLM, LongCacheCausalLM
 from opencompass.models.turbomind import TurboMindModel
 from opencompass.runners import SlurmSequentialRunner
 from opencompass.partitioners import SizePartitioner, NaivePartitioner
@@ -10,6 +10,7 @@ with read_base():
     from .datasets.needlebench.needlebench_4k.needlebench import needlebench_datasets
     from .summarizers.needlebench import needlebench_4k_summarizer as summarizer
 
+    # from .datasets.needlebench.needlebench_200k
     # only eval original "needle in a haystack test" in needlebench_4k
     # from .datasets.needlebench.needlebench_4k.needlebench_single import needlebench_datasets_zh, needlebench_datasets_en
     # from .summarizers.needlebench import needlebench_4k_summarizer as summarizer
@@ -70,9 +71,42 @@ internlm2_chat_7b_200k = dict(
         run_cfg=dict(num_gpus=1, num_procs=1),
     )
 
+longcache_internlm2_5_7b_1m = dict(
+        type=LongCacheCausalLM,
+        abbr='internlm2_5-7b-chat-1m-longcache',
+        path='internlm/internlm2_5-7b-chat-1m',
+        model_type='internlm2',
+        attn_implementation='flash_attention_2',
+        max_out_len=2048,
+        tokenizer_path='internlm/internlm2_5-7b-chat-1m',
+        cache_config = dict(
+                    global_size= 32, mid_size= 4, span_size= 32, 
+                    local_size=8192, chunk_size= 512, 
+                    rope_scaling= None, recall_option= 'default', 
+                    unique_option= 'head_unique', recall_clip= 256,
+                    key_compress_ratio= 1, value_compress_ratio=1
+                    ),
+        model_kwargs=dict(
+            trust_remote_code=True,
+            device_map='auto',
+        ),
+        tokenizer_kwargs=dict(
+            padding_side='left',
+            truncation_side='left',
+            use_fast=False,
+            trust_remote_code=True,
+        ),
+        batch_size=16,
+        max_seq_len=32768,
+        meta_template=hf_internlm2_chat_7b_model_meta_template,
+        run_cfg=dict(num_gpus=1, num_procs=1),
+        end_str='<|im_end|>',
+    )
+
 models = [
     # hf_internlm2_chat_7b,
-    internlm2_chat_7b_200k,
+    # internlm2_chat_7b_200k,
+    longcache_internlm2_5_7b_1m
 ]
 
-work_dir = './outputs/needlebench'
+work_dir = './outputs/needlebench/longcache_internlm2_5_7b_1m'
